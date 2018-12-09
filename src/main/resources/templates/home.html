@@ -124,6 +124,7 @@ input[type="checkbox"]{
 		});
 
 		function addTask() {
+			if(document.getElementById("addtask").value!=""){
 			var data = {
 				"description" : document.getElementById("addtask").value
 			}
@@ -137,7 +138,7 @@ input[type="checkbox"]{
 					location.href = "/toDoList/addTodo";
 				}
 			}
-		}
+		}}
 		function getTask() {
 
 			var xhttp = new XMLHttpRequest();
