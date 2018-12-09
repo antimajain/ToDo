@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<title>Add Task</title>
+<style>
+[id|=div] {
+	disply: inline-block;
+	width: 600px;
+	border: 1px solid lime;
+	border-collapse: collapse;
+	padding: 10px;
+	margin:5px 0px;
+		border-radius: 20px;
+	
+}
+#menu{
+	width: 700px;
+
+}
+#menu ul{
+	padding:0px;
+	margin:0px;
+	list-style-type: none;
+}
+#menu a{
+	
+	display: inline-block;
+	background-color: rgb(221, 136, 136);
+	width:300px;
+	text-align: center;
+	padding:15px 10px;
+	color: rgb(50, 50, 179);
+		font-size:15px;
+	
+	text-decoration: none;
+	
+}
+
+h2 {
+	text-align: center;
+		color:white;
+	
+}
+
+#addtask {
+	width: 500px;
+	opacity: 0.5;
+	padding:5px;
+}
+
+#main {
+	width: 700px;
+	margin: 10% 25%;
+}
+
+#btn {
+	margin: 0 20px 20px 20px ;
+	padding: 4px 25px;;
+}
+
+[id|=btndiv]{
+	float:right;
+}
+
+[id|=btndiv] button{
+	float:left;
+	margin:0px 3px;
+	padding: 5px 10px;
+	border: 1px solid lime;
+		border-radius: 15px;
+}
+
+[id|=text]{
+	font-size:20px;
+	margin:0px 10px;
+	color:white;
+}
+body{
+   
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+input[type="checkbox"]{
+  width: 20px; 
+  height: 20px;
+    display: inline;
+  
+}
+.delete{
+	background-color: red;
+}
+</style>
+</head>
+<body onload="getTask()" th:background="@{/images/bg.jpg}">
+	<div id="main">
+	<div id= menu>
+	<ul>
+	<a href="/toDoList/addTodo"><li>Home</li></a>
+	<a href="/toDoList/AllToDo"><li>All Tasks</li></a>
+	</ul>
+	</div>
+		<div id="header">
+			<h2>My To Do List</h2>
+		</div>
+		<div id="page">
+			<input type="text" name="addtask" id="addtask" /> <input
+				type="button" value="Add" id="btn" onclick="addTask()" />
+			<div id="list"></div>
+		</div>
+	</div>
+	<script type="text/javascript">
+	// to add task on enter
+
+		var input = document.getElementById("addtask");
+
+		input.addEventListener("keyup", function(event) {
+			event.preventDefault();
+			if (event.keyCode === 13) {
+				document.getElementById("btn").click();
+			}
+		});
+
+		function addTask() {
+			var data = {
+				"description" : document.getElementById("addtask").value
+			}
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("POST", "http://localhost:8080/toDoList/addToDo", true);
+			var str = JSON.stringify(data);
+			xhttp.setRequestHeader("Content-Type", "application/json");
+			xhttp.send(str);
+			xhttp.onreadystatechange = function() {
+				if (this.status == 200) {
+					location.href = "/toDoList/addTodo";
+				}
+			}
+		}
+		function getTask() {
+
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4) {
+					var data = JSON.parse(this.response);
+					var l;
+					for (l in data) {
+						var div = document.createElement("div");
+						div.id = "div-" + l;
+
+						var checkbox = document.createElement("input");
+						checkbox.id = data[l].id;
+						checkbox.setAttribute("type", "checkbox");
+						if (data[l].completed) {
+							checkbox.setAttribute("checked", true);
+						}
+						checkbox.addEventListener("click", function() {
+
+							addToComplete(this.id);
+						});
+						div.appendChild(checkbox);
+
+						var text = document.createElement("label");
+						text.id = "text-" + l;
+						var node = document.createTextNode(data[l].description);
+						node.id = "node" + data[l];
+						text.appendChild(node);
+						div.appendChild(text);
+
+						var btndiv = document.createElement("div");
+						btndiv.id = "btndiv-" + l;
+
+						var deleteTask = document.createElement("button");
+						deleteTask.id = data[l].id;
+						deleteTask.class="delete";
+						deleteTask.innerHTML = "Delete";
+						deleteTask.addEventListener("click", function() {
+
+							addToDelete(this.id);
+						});
+						btndiv.appendChild(deleteTask);
+
+						var archive = document.createElement("button");
+						archive.id = data[l].id;
+						archive.innerHTML = "Archive";
+						archive.addEventListener("click", function() {
+
+							addToArchive(this.id);
+						});
+						btndiv.appendChild(archive);
+						div.appendChild(btndiv);
+
+						list.appendChild(div);
+
+					}
+				}
+			}
+			xhttp.open("GET",
+					"http://localhost:8080/toDoList/getAllToDoUnArchive", true);
+			xhttp.setRequestHeader("Content-Type", "application/json");
+
+			xhttp.send();
+
+		}
+
+		function addToDelete(id) {
+
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4) {
+					location.href = "/toDoList/addTodo";
+
+				}
+			};
+			xhttp.open("DELETE", "http://localhost:8080/toDoList/removeToDo/"
+					+ id, true);
+			xhttp.setRequestHeader("Content-Type", "application/json");
+
+			xhttp.send();
+		}
+		function addToArchive(id) {
+
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4) {
+					location.href = "/toDoList/addTodo";
+
+				}
+			};
+			xhttp.open("PUT", "http://localhost:8080/toDoList/archive/" + id,
+					true);
+			xhttp.setRequestHeader("Content-Type", "application/json");
+
+			xhttp.send();
+		}
+		function addToComplete(id) {
+
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4) {
+					location.href = "/toDoList/addTodo";
+
+				}
+			};
+
+			xhttp.open("PUT",
+					"http://localhost:8080/toDoList/markAsDone/" + id, true);
+			xhttp.setRequestHeader("Content-Type", "application/json");
+
+			xhttp.send();
+
+		}
+	</script>
+</body>
+</html>
