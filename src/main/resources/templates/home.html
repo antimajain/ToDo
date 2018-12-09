@@ -132,6 +132,7 @@ input[type="checkbox"]{
 			xhttp.open("POST", "http://localhost:8080/toDoList/addToDo", true);
 			var str = JSON.stringify(data);
 			xhttp.setRequestHeader("Content-Type", "application/json");
+			xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
 			xhttp.send(str);
 			xhttp.onreadystatechange = function() {
 				if (this.status == 200) {
