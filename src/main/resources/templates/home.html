@@ -201,6 +201,7 @@ input[type="checkbox"]{
 			xhttp.open("GET",
 					"http://localhost:8080/toDoList/getAllToDoUnArchive", true);
 			xhttp.setRequestHeader("Content-Type", "application/json");
+			xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
 
 			xhttp.send();
 
@@ -218,6 +219,7 @@ input[type="checkbox"]{
 			xhttp.open("DELETE", "http://localhost:8080/toDoList/removeToDo/"
 					+ id, true);
 			xhttp.setRequestHeader("Content-Type", "application/json");
+			xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
 
 			xhttp.send();
 		}
@@ -233,6 +235,7 @@ input[type="checkbox"]{
 			xhttp.open("PUT", "http://localhost:8080/toDoList/archive/" + id,
 					true);
 			xhttp.setRequestHeader("Content-Type", "application/json");
+			xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
 
 			xhttp.send();
 		}
@@ -249,6 +252,7 @@ input[type="checkbox"]{
 			xhttp.open("PUT",
 					"http://localhost:8080/toDoList/markAsDone/" + id, true);
 			xhttp.setRequestHeader("Content-Type", "application/json");
+			xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
 
 			xhttp.send();
 
