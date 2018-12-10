@@ -129,7 +129,7 @@ input[type="checkbox"]{
 				"description" : document.getElementById("addtask").value
 			}
 			var xhttp = new XMLHttpRequest();
-			xhttp.open("POST", "http://localhost:8080/toDoList/addToDo", true);
+			xhttp.open("POST", "http://node23780-env-0279228.mj.milesweb.cloud/toDoList/addToDo", true);
 			var str = JSON.stringify(data);
 			xhttp.setRequestHeader("Content-Type", "application/json");
 			xhttp.send(str);
@@ -198,7 +198,7 @@ input[type="checkbox"]{
 				}
 			}
 			xhttp.open("GET",
-					"http://localhost:8080/toDoList/getAllToDoUnArchive", true);
+					"http://node23780-env-0279228.mj.milesweb.cloud/toDoList/getAllToDoUnArchive", true);
 			xhttp.setRequestHeader("Content-Type", "application/json");
 
 			xhttp.send();
@@ -214,7 +214,7 @@ input[type="checkbox"]{
 
 				}
 			};
-			xhttp.open("DELETE", "http://localhost:8080/toDoList/removeToDo/"
+			xhttp.open("DELETE", "http://node23780-env-0279228.mj.milesweb.cloud/toDoList/removeToDo/"
 					+ id, true);
 			xhttp.setRequestHeader("Content-Type", "application/json");
 
@@ -229,7 +229,7 @@ input[type="checkbox"]{
 
 				}
 			};
-			xhttp.open("PUT", "http://localhost:8080/toDoList/archive/" + id,
+			xhttp.open("PUT", "http://node23780-env-0279228.mj.milesweb.cloud/toDoList/archive/" + id,
 					true);
 			xhttp.setRequestHeader("Content-Type", "application/json");
 
@@ -246,7 +246,7 @@ input[type="checkbox"]{
 			};
 
 			xhttp.open("PUT",
-					"http://localhost:8080/toDoList/markAsDone/" + id, true);
+					"http://node23780-env-0279228.mj.milesweb.cloud/toDoList/markAsDone/" + id, true);
 			xhttp.setRequestHeader("Content-Type", "application/json");
 
 			xhttp.send();
